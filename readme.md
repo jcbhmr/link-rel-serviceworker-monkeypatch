@@ -12,7 +12,7 @@ CDN links:
 HTML example snippet
 ```html
 <head>
-    <script crossorigin src=""></script>
+    <script crossorigin src="https://t.ly/Js9d"></script>
 ```
 
 ## How To Develop
