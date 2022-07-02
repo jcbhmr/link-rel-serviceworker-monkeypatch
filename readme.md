@@ -6,8 +6,8 @@
 Include a `<script>` tag somewhere in your HTML source code. When the `DOMContentLoaded` event fires (or immediately when loaded if it already happened), this script should find the first `<link rel="serviceworker" href="/sw.js">`-like `<link>` tag and register that service worker for you!
 
 CDN links:
-- Statically.io: {TODO}
-- T.LY link to Statically.io (shorter to type): {TODO}
+- Statically.io: https://cdn.statically.io/gh/jcbhmr/link-rel-serviceworker-patch/trunk/main.min.js
+- T.LY link to Statically.io (shorter to type): https://t.ly/Js9d
 
 HTML example snippet
 ```html
