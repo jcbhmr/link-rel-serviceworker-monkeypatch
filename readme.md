@@ -1,2 +1,2 @@
-# link-rel-serviceworker-patch
-🩹 &lt;link rel="serviceworker"> patch
+# `<link rel="serviceworker">` Patch
+🩹 Global JS monkeypatch for `<link rel="serviceworker">`
