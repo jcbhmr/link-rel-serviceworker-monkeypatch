@@ -18,5 +18,5 @@ HTML example snippet
 ## How To Develop
 
 1. Write JS code
-2. Compile into a single module with [Rollup's online repl](https://rollupjs.org/repl/?version=2.75.7&shareable=JTdCJTIybW9kdWxlcyUyMiUzQSU1QiU3QiUyMm5hbWUlMjIlM0ElMjJtYWluLmpzJTIyJTJDJTIyY29kZSUyMiUzQSUyMiUyMiUyQyUyMmlzRW50cnklMjIlM0F0cnVlJTdEJTVEJTJDJTIyb3B0aW9ucyUyMiUzQSU3QiUyMmZvcm1hdCUyMiUzQSUyMmVzJTIyJTJDJTIybmFtZSUyMiUzQSUyMm15QnVuZGxlJTIyJTJDJTIyYW1kJTIyJTNBJTdCJTIyaWQlMjIlM0ElMjIlMjIlN0QlMkMlMjJnbG9iYWxzJTIyJTNBJTdCJTdEJTdEJTJDJTIyZXhhbXBsZSUyMiUzQW51bGwlN0Q=)
+2. Compile into a single module with [Rollup's online repl](https://rollupjs.org/repl) (make sure to export as UMD!)
 3. Compile that result into a `.min.js` file with [Terser's online repl](https://try.terser.org/) (make sure you set `module: false` in the options!)
