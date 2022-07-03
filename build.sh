@@ -1,6 +1,3 @@
-#! /usr/bin/env bash
-set -eux
-# This command doesn't seem to work on Replit...
 #! /usr/bin/env -S bash -eux
 
 # This script generates the following files:
