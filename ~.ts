@@ -30,61 +30,68 @@ const main = (
 ) => {
 	// Extract only the first one to deal with, emit an error
 	// event on all the other ones
-	const [first, ...rest] = [...node.querySelectorAll("link")].filter((link) =>
+	const [link, ...rest] = [...node.querySelectorAll("link")].filter((link) =>
 		link.relList.contains("serviceworker"),
 	)
 
 	// Here we .dispatchEvent() so that all these invalid link elements
 	// get the message that they, indeed, invalid
-	for (const link of rest) {
+	for (const other of rest) {
 		const error = new Error(
-			`<link rel="serviceworker"> tag already declared!`,
+			`Cannot have multiple <link rel="serviceworker"> tags`,
 		)
-		link.dispatchEvent(
-			new ErrorEvent("error", { error, message: error.message }),
-		)
+		const event = new ErrorEvent("error", { error, message: error.message })
+		queueMicrotask(() => void other.dispatchEvent(event))
 	}
 
-	// Might have been a 0-length array!
-	if (first == null) {
+	// Might have been a 0-length array
+	if (link == null) {
 		return
 	}
 
-	// Now we deal with that original <link> element. We use promises here
-	// instead of async-await because they mesh with this being a sync function.
-	// These possibly-undefined function calls are OK since if they are indeed
-	// undefined, the option won't be interpreted by the .register() function!
+	// Now we deal with that original <link> element. We use an anonymous
+	// async function here to make the code flow a little better.
+	;(async () => {
+		try {
+			// 1. Ensure that a valid href was set
+			if (first.href === "") {
+				throw new TypeError(`Invalid href URL`)
+			}
 
-	// 1. Ensure that a valid href was set
-	if (first.href === "") {
-		const error = new Error(`Invalid href URL!`)
-		first.dispatchEvent(new ErrorEvent("error", { error, message: error.message }))
-	}
+			// 2. Generate the options object conditionally
+			const options: { scope?: string; type?: WorkerType } = {}
+			if (first.hasAttribute("scope")) {
+				options.scope = first.getAttribute("scope")
+			}
+			if (first.hasAttribute("type")) {
+				options.type = first.getAttribute("type")
+			}
 
-	// 2. Generate the options object conditionally
-	const options = {}
-	if (first.hasAttribute("scope")) {
-		options.scope = first.getAttribute("scope")
-	}
-	if (first.hasAttribute("type")) {
-		options.type = first.getAttribute("type")
-	}
+			// 3. Register it with the serviceWorker
+			const success = await serviceWorker.register(first.href, options)
 
-	// 3. Apply those options
-	serviceWorker
-		.register(first.href, options)
-		.then((registration) => {
-			// Make sure to notify the <link> element that it worked!
-			first.dispatchEvent(
-				new CustomEvent("load", { detail: registration }),
-			)
-		})
-		.catch((error) => {
-			// Something went wrong, so better forward that on to the <link> element
-			first.dispatchEvent(
-				new ErrorEvent("error", { error, message: error.message }),
-			)
-		})
+			// Report success
+			// Why queueMicrotask()? Well, let me explain...
+			// When you use .dispatchEvent(), it executes all registered listeners
+			// synchronously. This means that any errors they throw are in the scope
+			// of that function, as though the .dispatchEvent() call threw those errors.
+			// This queueMicrotask() hoists those thrown errors out of the scope of this
+			// try-catch block and into the global scope so that they are uncaught!
+			// This is also exactly what the browser does for all its emitted events. ONLY
+			// USER EVENTS (the ones manually triggered with .dispatchEvent()) have this
+			// issue. Browser-level events are queued until an event loop churn happens.
+			const event = new CustomEvent("load", { detail: success })
+			queueMicrotask(() => void link.dispatchEvent(event))
+		} catch (error: Error) {
+			// Report error
+			const event = new ErrorEvent("error", {
+				error,
+				message: error.message,
+			})
+			queueMicrotask(() => void link.dispatchEvent(event))
+			return
+		}
+	})()
 
 	// Don't return anything since this is a side-effect-only function
 }
@@ -105,11 +112,11 @@ if (document.readyState === "loading") {
 		once: true,
 	})
 }
-// Uh oh! Looks like this was loaded post-DOM initialization!
-// Better immediately run the script!
+// Uh oh! Looks like this was loaded post-DOM initialization, better
+// immediately run the script.
 else {
 	main()
 }
 
-// Just in case you want to use it again, here it is!
+// Just in case you want to use it again, here it is
 export default main
