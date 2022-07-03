@@ -86,7 +86,7 @@ if (document.readyState === "loading") {
 	// a tree. If we tried to to main() immediately, we might
 	// find that no <link> tags exist because they haven't made
 	// the jump from HTML text into actual live DOM elements!
-	document.addEventListener("DOMContendLoaded", () => void main(), {
+	document.addEventListener("DOMContentLoaded", () => void main(), {
 		// This auto-unregisters this listener when it runs
 		once: true,
 	})
