@@ -17,7 +17,7 @@ Include a `<script>` tag somewhere in your HTML source code. That's it! Oh, and 
 ```html
 <script
   crossorigin
-  src="https://unpkg.com/@jcbhmr/link-rel-serviceworker-polyfill@1.0.0/main.iife.min.js"
+  src="https://unpkg.com/@jcbhmr/link-rel-serviceworker-polyfill@1/main.iife.min.js"
 ></script>
 ```
 
@@ -31,7 +31,7 @@ npm install @jcbhmr/link-rel-serviceworker-polyfill
 import "@jcbhmr/link-rel-serviceworker-polyfill/main.js";
 ```
 
-You can [inspect all the generated files over on runpkg](https://runpkg.com/@jcbhmr/link-rel-serviceworker-polyfill@1.0.0) and see which one you want to import
+You can [inspect all the generated files over on runpkg](https://runpkg.com/@jcbhmr/link-rel-serviceworker-polyfill@1) and see which one you want to import
 
 ## How To Develop
 
