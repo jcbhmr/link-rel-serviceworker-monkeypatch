@@ -1,0 +1,11 @@
+{
+	"name": "@jcbhmr/link-rel-serviceworker-polyfill",
+	"version": "1.0.0",
+	"description": "🐵🔧 Monkeypatch for <link rel=\"serviceworker\">",
+	"license": "MIT",
+	"browser": "./~.iife.min.js",
+	"homepage": "https://github.com/jcbhmr/link-rel-serviceworker-polyfill#readme",
+	"bugs": "https://github.com/jcbhmr/link-rel-serviceworker-polyfill/issues",
+	"author": "Jacob Hummer <jcbhmr@outlook.com> (https://jcbhmr.github.io)",
+	"files": ["**/*.js"]
+}
