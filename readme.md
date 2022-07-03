@@ -6,7 +6,7 @@
 <link rel="serviceworker" href="/sw.js" type="module" />
 ```
 
-**Warning:** I recommend against actually using this code in any production-grade environment
+**⚠️ Warning:** I recommend against actually using this code in any production-grade environment
 
 ## How To Use
 
