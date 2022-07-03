@@ -54,21 +54,27 @@ const main = (
 	;(async () => {
 		try {
 			// 1. Ensure that a valid href was set
-			if (first.href === "") {
+			if (link.href === "") {
 				throw new TypeError(`Invalid href URL`)
 			}
 
 			// 2. Generate the options object conditionally
 			const options: { scope?: string; type?: WorkerType } = {}
-			if (first.hasAttribute("scope")) {
-				options.scope = first.getAttribute("scope")
+			if (link.hasAttribute("scope")) {
+				// Assert that is indeed NOT null here
+				options.scope = link.getAttribute("scope")!
 			}
-			if (first.hasAttribute("type")) {
-				options.type = first.getAttribute("type")
+			if (link.hasAttribute("type")) {
+				// Same here, though this time with the extra that this is
+				// a WorkerType string
+				options.type = link.getAttribute("type")! as WorkerType
 			}
 
 			// 3. Register it with the serviceWorker
-			const success = await serviceWorker.register(first.href, options)
+			// Any fancy error messages about "invalid scope" or "not a valid type"
+			// are handled by the underlying .register() function. Those errors will
+			// be then caught by the catch handler below.
+			const success = await serviceWorker.register(link.href, options)
 
 			// Report success
 			// Why queueMicrotask()? Well, let me explain...
@@ -82,6 +88,8 @@ const main = (
 			// issue. Browser-level events are queued until an event loop churn happens.
 			const event = new CustomEvent("load", { detail: success })
 			queueMicrotask(() => void link.dispatchEvent(event))
+
+			// @ts-ignore This is 100% an error object, not 'any'
 		} catch (error: Error) {
 			// Report error
 			const event = new ErrorEvent("error", {
