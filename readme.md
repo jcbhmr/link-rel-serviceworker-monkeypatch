@@ -6,6 +6,8 @@
 <link rel="serviceworker" href="/sw.js" type="module" />
 ```
 
+Well, more like _loader_. "Polyfill" might be a overselling it a bit.
+
 **⚠️ Warning:** I recommend against actually using this code in any production-grade environment
 
 ## How To Use
@@ -40,3 +42,12 @@ You can [inspect all the generated files over on runpkg](https://runpkg.com/@jcb
 5. Commit & push to your fork
 6. Open a Pull Request against this repository with the big green button on your forked repo page
 7. Profit!
+
+## Prior Art
+
+Turns out there was a some movement on `<link rel="serviceworker">` back in 2017! It didn't last though.
+
+- [Chrome Platform Status: Link rel=serviceworker](https://chromestatus.com/feature/5682681044008960)
+- [w3c/html issue "Check status of `<link rel=serviceworker>`"](https://github.com/w3c/html/issues/821)
+- [Install a Service Worker Declaratively - Phil Nash](https://philna.sh/blog/2016/08/17/install-a-service-worker-declaratively/)
+- [Chrome Bug: Remove foreign fetch and link rel=serviceworker](https://bugs.chromium.org/p/chromium/issues/detail?id=788604)
