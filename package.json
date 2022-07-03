@@ -1,6 +1,6 @@
 {
 	"name": "@jcbhmr/link-rel-serviceworker-polyfill",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "🐵🔧 Monkeypatch for <link rel=\"serviceworker\">",
 	"license": "MIT",
 	"browser": "./~.iife.min.js",
