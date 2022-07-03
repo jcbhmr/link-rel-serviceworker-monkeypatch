@@ -1,0 +1,32 @@
+# Uses the $NPM_TOKEN repo-scoped Action secret (access in the Settings tab) to publish
+# an NPM package on your behalf each time a new release is created. Make sure that it
+# actually passes 'npm test' and 'npm pack'! If your tests fail, the release is basically
+# doomed!
+#
+# It is recommended that you go to https://www.npmjs.com/settings/<username>/tokens and create
+# a new token for EACH REPO THAT PUBLISHES so that you can selectively disable them if
+# compromised. It is also recommended to use a password manager-like piece of software
+# for storing those $NPM_TOKEN variables.
+#
+# More information: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
+name: Publish release to NPM
+on:
+  release:
+    types: [created]
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      # TODO: Fix this not having +x permission
+      - run: bash -eux ./build.sh
+      # This --access=public flag is needed for @<scope>/<package> packages since they
+      # default to --access=private which you likely don't want
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
