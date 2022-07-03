@@ -15,10 +15,7 @@ Well, more like _loader_. "Polyfill" might be a overselling it a bit.
 Include a `<script>` tag somewhere in your HTML source code. That's it! Oh, and don't expect any `link.href` mutations you make to be reflected in any way. This polyfill patch runs _only once_ on the initial page load. After that, you're left with a bunch of regular `<link>` tags.
 
 ```html
-<script
-  crossorigin
-  src="https://unpkg.com/@jcbhmr/link-rel-serviceworker-polyfill@1/main.iife.min.js"
-></script>
+<script crossorigin src="https://unpkg.com/@jcbhmr/link-rel-serviceworker-polyfill@1"></script>
 ```
 
 You can also use this as an ES-module
