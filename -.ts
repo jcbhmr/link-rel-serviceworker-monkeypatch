@@ -1,3 +1,6 @@
+// All of these have .querySelectorAll()-type methods
+type DocumentLike = Document | DocumentFragment | ShadowRoot | Element
+
 /**
  * 🏗️ Inspects the document for a <link rel="serviceworker"> and
  * registers it
@@ -15,7 +18,7 @@
  * function. You can trigger it again manually if you so choose.
  */
 export default (
-  node: Node = document,
+  node: DocumentLike = document,
   serviceWorker: ServiceWorkerContainer = navigator.serviceWorker
 ) => {
   // Extract only the first one to deal with, emit an error
@@ -43,17 +46,17 @@ export default (
   // These possibly-undefined function calls are OK since if they are indeed
   // undefined, the option won't be interpreted by the .register() function!
   serviceWorker
-    .register(link.href, {
-      scope: link.getAttribute("scope"),
-      type: link.getAttribute("type"),
+    .register(first.href, {
+      scope: first.getAttribute("scope"),
+      type: first.getAttribute("type") as WorkerType,
     })
     .then((registration) => {
       // Make sure to notify the <link> element that it worked!
-      link.dispatchEvent(new CustomEvent("load", { detail: registration }));
+      first.dispatchEvent(new CustomEvent("load", { detail: registration }));
     })
     .catch((error) => {
       // Something went wrong, so better forward that on to the <link> element
-      link.dispatchEvent(
+      first.dispatchEvent(
         new ErrorEvent("error", { error, message: error.message })
       );
     });
