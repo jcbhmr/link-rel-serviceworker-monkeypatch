@@ -54,11 +54,25 @@ const main = (
 	// instead of async-await because they mesh with this being a sync function.
 	// These possibly-undefined function calls are OK since if they are indeed
 	// undefined, the option won't be interpreted by the .register() function!
+
+	// 1. Ensure that a valid href was set
+	if (first.href === "") {
+		const error = new Error(`Invalid href URL!`)
+		first.dispatchEvent(new ErrorEvent("error", { error, message: error.message }))
+	}
+
+	// 2. Generate the options object conditionally
+	const options = {}
+	if (first.hasAttribute("scope")) {
+		options.scope = first.getAttribute("scope")
+	}
+	if (first.hasAttribute("type")) {
+		options.type = first.getAttribute("type")
+	}
+
+	// 3. Apply those options
 	serviceWorker
-		.register(first.href, {
-			scope: first.getAttribute("scope"),
-			type: first.getAttribute("type") as WorkerType,
-		})
+		.register(first.href, options)
 		.then((registration) => {
 			// Make sure to notify the <link> element that it worked!
 			first.dispatchEvent(
